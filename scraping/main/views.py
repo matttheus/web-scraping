@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic.list import ListView
+from main.models import Scraping
 
-
-class IndexView(View):
-    def get(self, request):
-        return render(request, 'main/index.html')
+class ListScrapingView(ListView):
+    model = Scraping
+    context_object_name = 'scrapings'
