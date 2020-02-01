@@ -20,11 +20,9 @@
       {% if scrapings %}
         {% for scrap in scrapings %}
         <div class="card my-4">
-          <div class="card-header">
-            {{scrap}}
-          </div>
+          <div class="card-header">{{ scrap }}</div>
           <div class="card-body">
-            <a href="#" class="btn btn-info">Visit the page</a>
+            <a href="{{ scrap.link }}" class="btn btn-info">Visit the page</a>
           </div>
         </div>
         {% endfor %}

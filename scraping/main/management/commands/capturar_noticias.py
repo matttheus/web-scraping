@@ -20,13 +20,15 @@ def get_news(parser, tag, class_pattern, sub_tag, sub_class_pattern):
 
     items = parser.find_all(tag, class_=class_pattern)
     
-    titles = []
+    news = []
     for item in items:
         content = item.find('a', class_='tec--card__title__link')
         if content:
-            titles.append(item.find('a', class_=sub_class_pattern).string.strip())
+            title = item.find('a', class_=sub_class_pattern).string.strip()
+            link = item.find('a', class_=sub_class_pattern).get('href')
+            news.append([title, link])
 
-    return titles
+    return news
 
 
 class Command(BaseCommand):
@@ -35,10 +37,10 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         try:
             html_parser = get_html_parser('https://www.tecmundo.com.br/')
-            titles = get_news(html_parser, 'div', 'tec--list__item', 'a', 'tec--card__title__link')
+            news = get_news(html_parser, 'div', 'tec--list__item', 'a', 'tec--card__title__link')
            
-            for title in titles:
-                scraping = Scraping(title=title)
+            for new in news:
+                scraping = Scraping(title=new[0], link=new[1])
                 try:
                     scraping.save()
                 except:
