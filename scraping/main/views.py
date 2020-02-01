@@ -16,6 +16,5 @@ class SearchScrapingView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('search')
-        print(query)
         scrapings = Scraping.objects.filter(title__contains=query)
         return scrapings
