@@ -16,36 +16,37 @@
         {% for scrap in scrapings %}
         <div class="card my-4">
           <div class="card-header">
-            Featured
+            {{scrap}}
           </div>
           <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">{{scrap}}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a href="#" class="btn btn-info">Visit the page</a>
           </div>
         </div>
         {% endfor %}
     </div>
 
-    <nav class="d-flex justify-content-center" aria-label="Page navigation example">
+    {% if is_paginated %}
+    <nav class="d-flex justify-content-center" aria-label="Page navigation">
         <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
+            {% if page_obj.has_previous %}
+                <li><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">&laquo;</a></li>
+            {% else %}
+                <li class="page-link disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-link active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">&raquo;</a></li>
+            {% else %}
+                <li class="disabled page-link" aria-label="Next"><span>&raquo;</span></li>
+            {% endif %}
         </ul>
     </nav>
-
+    {% endif %}
 </div>
 {% endblock content %}
