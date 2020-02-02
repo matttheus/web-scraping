@@ -1,8 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
 from main.models import Scraping
+from django.conf import settings
 
 from bs4 import BeautifulSoup as bs
 from requests import get
+from json import load
 
 def get_html_parser(url):
     ''' This function get the url and return the html parsed'''
@@ -36,15 +38,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         try:
-            html_parser = get_html_parser('https://www.tecmundo.com.br/')
-            news = get_news(html_parser, 'div', 'tec--list__item', 'a', 'tec--card__title__link')
-           
-            for new in news:
-                scraping = Scraping(title=new[0], link=new[1])
-                try:
-                    scraping.save()
-                except:
-                    pass
+            with open(f'{settings.BASE_DIR}/sites.json') as file:
+                sites = load(file).get('sites')
+            
+            for site in sites:
+                link = site.get('link')
+                tag = site.get('tag')
+                class_pattern = site.get('class_pattern')
+                sub_tag = site.get('sub_tag')
+                sub_class_pattern = site.get('sub_class_pattern')
+                html_parser = get_html_parser(link)
+                news = get_news(html_parser, tag, class_pattern, sub_tag, sub_class_pattern)
+            
+                for new in news:
+                    scraping = Scraping(title=new[0], link=new[1])
+                    try:
+                        scraping.save()
+                    except:
+                        pass
                 
         except Exception as err:
             print(err)

@@ -1,0 +1,11 @@
+{
+    "sites": [
+        {
+            "link": "https://www.tecmundo.com.br/",
+            "tag": "div", 
+            "class_pattern": "tec--list__item", 
+            "sub_tag": "a", 
+            "sub_class_pattern": "tec--card__title__link"
+        }
+    ]
+}
