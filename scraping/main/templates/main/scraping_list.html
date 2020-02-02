@@ -5,11 +5,11 @@
 <div class="container">
   <div class="mb-3 my-5">
     <form class="input-group" action="{% url 'main:search-scraping' %}">    
-      <input type="text" id="search-input" class="form-control" placeholder="Search some news" name="q" aria-label="Search theme" aria-describedby="search-input">
+      <input type="text" id="search-input" class="form-control" autocomplete="off" placeholder="Search some news" name="q" aria-label="Search theme" aria-describedby="search-input">
   
       <div class="input-group-append">
-        <button class="btn" type="submit">
-          <img src="{% static 'main/search-icon.svg' %}" alt="Search icon">
+        <button class="btn btn-light border border-info" type="submit">
+          <img src="{% static 'main/img/search-icon.svg' %}" alt="Search icon">
         </button>
       </div>
    
